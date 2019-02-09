@@ -1,17 +1,24 @@
 #!/usr/bin/env php
 <?php
-/**
- * Created by PhpStorm.
- * User: ivanpetroff
- * Date: 2019-02-09
- * Time: 16:20
- */
-$files = array_slice(scandir('.'), 2);
-$files = array_filter($files, function ($file) {
-	return $file[0] === '.';
-});
-sort($files);
-$files = $files[ceil(count($files)) / 2];
-$files = substr($files, -1) === 's' ? $files : $files . 's';
-$files = strtoupper($files);
-print_r($files);
+
+
+use Tightenco\Collect\Support\Collection;
+
+require_once __DIR__ . '/../vendor/autoload.php';
+
+$result = (new Collection(array_slice(scandir('.'), 2)))
+	->filter(function($file) {
+		return $file[0] === '.';
+	})
+	->sort()
+	->pipe(function($collection) {
+		$key = ceil($collection->count() / 2) - 1;
+		return new Collection([$collection->get((int)$key)]);
+	})
+	->map(function($file) {
+		return substr($file, -1) === 's' ? $file : $file . 's';
+	})
+	->map(function ($file) {
+		return strtoupper($file);
+	})->get(0);
+print_r($result);
