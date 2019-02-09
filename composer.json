@@ -1,0 +1,16 @@
+{
+  "name": "countjr/pipline",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Countjr",
+      "email": "countjr@gmail.com"
+    }
+  ],
+  "require": {},
+  "autoload": {
+    "psr-4": {
+      "Countjr\\Pipline\\": "src/"
+    }
+  }
+}
