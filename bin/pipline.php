@@ -1,21 +1,17 @@
 #!/usr/bin/env php
 <?php
-
-use Countjr\Pipline\Pipline;
-
-require_once __DIR__ . '/../vendor/autoload.php';
-
-$files = new Pipline(array_slice(scandir('.'), 2));
-
-print_r( $files
-	->bind(function ($data) {
-		return array_filter($data, function($x) {
-			return $x[0] === '.';
-		});
-	})
-	->bind(function ($data) {
-		sort($data);
-		return $data;
-	})
-	->getData());
-
+/**
+ * Created by PhpStorm.
+ * User: ivanpetroff
+ * Date: 2019-02-09
+ * Time: 16:20
+ */
+$files = array_slice(scandir('.'), 2);
+$files = array_filter($files, function ($file) {
+	return $file[0] === '.';
+});
+sort($files);
+$files = $files[ceil(count($files)) / 2];
+$files = substr($files, -1) === 's' ? $files : $files . 's';
+$files = strtoupper($files);
+print_r($files);
